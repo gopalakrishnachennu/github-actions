@@ -1,0 +1,15 @@
+name: "Python Composite Hello"
+description: "Runs a Python script directly using composite action"
+author: "Gopall Chennu"
+inputs:
+  name:
+    description: "Name to greet"
+    required: true
+    default: "Friend"
+runs:
+  using: "composite"
+  steps:
+    - name: Run Python Greeting Script
+      run: python script.py "${{ inputs.name }}"
+      shell: bash
+
