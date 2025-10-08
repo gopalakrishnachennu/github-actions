@@ -1,44 +1,48 @@
 pipeline {
     agent any
 
-    triggers {
-        // Optional: run every 2 minutes (for testing)
-        cron('H/2 * * * *')
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
-                echo "📥 Cloning repository from SCM..."
-                git branch: 'main', url: 'https://github.com/gopalakrishnachennu/python-app.git'
+                echo "📥 Cloning public repository..."
+               sh '''
+               echo "okayyy"
+               '''
             }
         }
 
         stage('Setup Environment') {
             steps {
-                echo "🐍 Setting up Python environment..."
+                echo "🐍 Checking Python version & installing deps..."
                 sh '''
                 python3 --version
                 pip install --upgrade pip
-                pip install -r requirements.txt || echo "⚠️ No requirements.txt found."
+                if [ -f requirements.txt ]; then
+                    pip install -r requirements.txt
+                else
+                    echo "⚠️ No requirements.txt found, skipping dependency install."
+                fi
                 '''
             }
         }
 
         stage('Run Python Script') {
             steps {
-                echo "🚀 Running Python script..."
+                echo "🚀 Running your Python script..."
                 sh '''
-                echo "Executing hello.py via Jenkins SCM pipeline..."
-                python3 hello.py Gopala
+                echo "Executing hello.py..."
+                python3 hello.py "Gopala Krishna"
                 '''
             }
         }
     }
 
     post {
-        always {
-            echo "✅ Job completed at: ${new Date()}"
+        success {
+            echo "✅ Pipeline completed successfully at: ${new Date()}"
+        }
+        failure {
+            echo "❌ Pipeline failed. Check the logs above."
         }
     }
 }
