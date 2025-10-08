@@ -29,7 +29,7 @@ pipeline {
                 echo "🚀 Running your Python script..."
                 sh '''
                 echo "Executing hello.py..."
-                python3 hello.py "Gopala Krishna"
+                python3 script.py
                 '''
             }
         }
