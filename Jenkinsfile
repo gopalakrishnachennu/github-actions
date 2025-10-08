@@ -15,6 +15,7 @@ pipeline {
             steps {
                 echo "🐍 Checking Python version & installing deps..."
                 sh '''
+                pip install python3
                 python3 --version
                 pip install --upgrade pip
                 if [ -f requirements.txt ]; then
